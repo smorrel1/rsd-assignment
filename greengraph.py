@@ -3,6 +3,7 @@ import geopy
 from io import StringIO
 from matplotlib import image as img
 from matplotlib import pyplot as plt
+import requests
 
 
 class Greengraph(object):
@@ -21,8 +22,10 @@ class Greengraph(object):
 
   def green_between(self, steps):
     return [Map(*location).count_green()
-
-            for location in self.location_sequence(self.geolocate(self.start), self.geolocate(self.end), steps)]
+            for location in self.location_sequence(
+                self.geolocate(self.start),
+                self.geolocate(self.end),
+                steps)]
 
 
 class Map(object):
@@ -37,14 +40,16 @@ class Map(object):
       style="feature:all|element:labels|visibility:off")
     if satellite:
       params["maptype"] = "satellite"
+
     self.image = requests.get(base, params=params).content  # Fetch our PNG image data
     self.pixels = img.imread(StringIO(self.image))
 
   # Parse our PNG image as a numpy array
   def green(self, threshold):
-    # Use NumPy to build an element-by-element logical array greener_than_red =
-    # self.pixels[:,:,1] > threshold* self.pixels[:,:,0] greener_than_blue =
-    # self.pixels[:,:,1] > threshold*self.pixels[:,:,2] green = np.logical_and(greener_than_red, greener_than_blue)
+    # Use NumPy to build an element-by-element logical array
+    greener_than_red = self.pixels[:, :, 1] > threshold* self.pixels[:, :, 0]
+    greener_than_blue = self.pixels[:, :, 1] > threshold*self.pixels[:, :, 2]
+    green = np.logical_and(greener_than_red, greener_than_blue)
     return green
 
   def count_green(self, threshold=1.1):
