@@ -1,3 +1,6 @@
+# Greengraph plots a line showing the percentage of green pixels between
+# two points.  Copyright (C) 2016 Stephen Morrell. See LICENCE for details.
+
 #!/usr/bin/env python
 # TODO: change top level directory from rsd-assignment to greengraph
 import numpy as np

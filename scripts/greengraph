@@ -1,3 +1,5 @@
+# Greengraph plots a line showing the percentage of green pixels between
+# two points.  Copyright (C) 2016 Stephen Morrell. See LICENCE for details.
 #!/usr/bin/env python
 # TODO: fix ImportError: No module named 'greengraph'
 from ..greengraph.greengraph import greengraph_func # rsd-assignment
