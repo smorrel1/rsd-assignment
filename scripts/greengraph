@@ -1,0 +1,4 @@
+#!/usr/bin/env python
+# TODO: fix ImportError: No module named 'greengraph'
+from ..greengraph.greengraph import greengraph_func # rsd-assignment
+greengraph_func()
