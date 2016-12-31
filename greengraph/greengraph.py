@@ -95,6 +95,9 @@ def greengraph_func():
                       help='Output file name for graph in png format, e.g. graph.png')
   args = parser.parse_args()  # produces Namespace()
   print(args)  # remove
+  # Check input
+  if args.start < 1:
+    raise ValueError("Number of steps " + str(args.steps) + " must be at least 1")
   mygraph = Greengraph(args.start, args.end)
   data = mygraph.green_between(args.steps)
   # save args.output_file  # TODO Save file to .png
