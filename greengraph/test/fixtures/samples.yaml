@@ -1,5 +1,5 @@
-- graph: Herts
-  from: London
-  to: Wellingborough
+- start: London
+  end: Wellingborough
   steps: 5
-  answer: 60%
+  output_file: Graph.png
+  answer: [108032, 143453, 157040, 157591, 158101]

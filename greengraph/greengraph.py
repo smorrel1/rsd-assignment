@@ -5,7 +5,7 @@
 # TODO: change top level directory from rsd-assignment to greengraph
 import numpy as np
 import geopy
-from io import StringIO
+from io import BytesIO
 from matplotlib import image as img
 from matplotlib import pyplot as plt
 import requests
@@ -21,7 +21,7 @@ class Greengraph(object):
   def geolocate(self, place):
     return self.geocoder.geocode(place, exactly_one=False)[0][1]
 
-  def location_sequence(self, start, end, steps):
+  def location_sequence(self, start, end, steps=10):
     lats = np.linspace(start[0], end[0], steps)
     longs = np.linspace(start[1], end[1], steps)
     return np.vstack([lats, longs]).transpose()
@@ -48,7 +48,7 @@ class Map(object):
       params["maptype"] = "satellite"
 
     self.image = requests.get(base, params=params).content  # Fetch our PNG image data
-    self.pixels = img.imread(StringIO(self.image))
+    self.pixels = img.imread(BytesIO(self.image))
 
   # Parse our PNG image as a numpy array
   def green(self, threshold):
@@ -68,7 +68,7 @@ class Map(object):
     result = img.imsave(buffer, out, format='png')
     return buffer.getvalue()
 
-def greengraph_func():
+def greengraph_func(start='London', end='Oxford', steps=10, output_file='graph.png'):
   '''
   Plots a line showing the percentage of green pixels between two points
 
@@ -85,23 +85,28 @@ def greengraph_func():
   '''
   args = sys.argv[1:-1]  # remove
   parser = argparse.ArgumentParser(description='Calculate greenery between two points.')
-  parser.add_argument('--from', dest='start', type=str,
+  parser.add_argument('--from', dest='start', type=str, default=start,
                       help='Origin location name.')
-  parser.add_argument('--to', dest='end', type=str,
+  parser.add_argument('--to', dest='end', type=str, default=end,
                       help='Destination location name')
-  parser.add_argument('--steps', dest='steps', type=int,
+  parser.add_argument('--steps', dest='steps', type=int, default=steps,
                       help='Number of steps from origin to destination')
-  parser.add_argument('--out', dest='output_file', type=str,
-                      help='Output file name for graph in png format, e.g. graph.png')
+  parser.add_argument('--out', dest='output_file', type=str, default=output_file,
+                      help='Output file name for graph in png format')
   args = parser.parse_args()  # produces Namespace()
   print(args)  # remove
   # Check input
-  if args.start < 1:
+  if args.steps < 1:
     raise ValueError("Number of steps " + str(args.steps) + " must be at least 1")
   mygraph = Greengraph(args.start, args.end)
   data = mygraph.green_between(args.steps)
-  # save args.output_file  # TODO Save file to .png
+  print('plotting data')
   plt.plot(data)
+  # print('showing graph')
+  # plt.show()
+  print('saving graph')
+  plt.savefig('output_file')
+  return data
 
 if __name__ == '__main__':
   greengraph_func()
