@@ -10,7 +10,6 @@ from io import BytesIO
 from matplotlib import image as img
 from matplotlib import pyplot as plt
 import requests
-import sys
 import argparse
 
 class Greengraph(object):
@@ -84,7 +83,6 @@ def greengraph_func(start='London', end='Oxford', steps=10, output_file='graph.p
   -------
   saves a graph as <name>.png
   '''
-  args = sys.argv[1:-1]  # remove
   parser = argparse.ArgumentParser(description='Calculate greenery between two points.')
   parser.add_argument('--from', dest='start', type=str, default=start,
                       help='Origin location name.')
