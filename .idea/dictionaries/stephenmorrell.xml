@@ -2,6 +2,7 @@
   <dictionary name="stephenmorrell">
     <words>
       <w>geocoder</w>
+      <w>geolocate</w>
       <w>greengraph</w>
       <w>maptype</w>
       <w>staticmap</w>

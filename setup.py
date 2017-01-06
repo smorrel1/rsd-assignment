@@ -10,5 +10,6 @@ setup(
   version="0.1",
   packages=find_packages(exclude=['*test']),
   scripts=['scripts/greengraph'],
-  install_requires=['argparse, numpy, geopy, io, matplotlib, requests, sys, yaml, nose', 'nose']
+  install_requires=['argparse, numpy, geopy, io, matplotlib, requests, sys, yaml, nose', 'nose', 'mock', 'geopy',
+                    'numpy', 'matplotlib', 'requests', 'yaml']
 )
